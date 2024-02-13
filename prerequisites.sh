@@ -7,3 +7,4 @@ kubectl apply -f https://raw.githubusercontent.com/carvel-dev/kapp-controller/de
 
 kubectl apply -f https://github.com/vmware-tanzu/carvel-secretgen-controller/releases/latest/download/release.yml
 
+watch kubectl get pods -A
