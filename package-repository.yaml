@@ -6,3 +6,5 @@ spec:
   fetch:
     imgpkgBundle:
       image: kind-registry.local:5000/p-rabbitmq-for-kubernetes/tanzu-rabbitmq-package-repo:1.5.3-nocompression
+
+

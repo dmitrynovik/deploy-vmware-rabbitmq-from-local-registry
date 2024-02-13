@@ -1,11 +1,12 @@
+#@ load("@ytt:data", "data")
+
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageInstall
 metadata:
   name: tanzu-rabbitmq
 spec:
-  #paused: true
-  serviceAccountName: rabbitmq # Replace with service account name
+  serviceAccountName: #@ data.values.rabbitmq.serviceaccount
   packageRef:
     refName: rabbitmq.tanzu.vmware.com
     versionSelection:
-      constraints: 1.3.2 # Replace with release version
+      constraints: #@ data.values.rabbitmq.version
