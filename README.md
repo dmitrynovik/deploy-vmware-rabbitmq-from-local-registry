@@ -1,3 +1,9 @@
+# What it is
+A set of resources and scripts to create a VMware RabbitMQ cluster off local docker registry, for air-gapped environments.
+
+# Prerequesites
+- A K8s cluster with registry ( for dev machines, I recommend setting up [kind](https://github.com/dmitrynovik/install-and-configure-kind))
+- `kubectl`
 
 # Useful commands
 
