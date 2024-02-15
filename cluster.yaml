@@ -1,9 +1,50 @@
 apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster
 metadata:
-  name: rabbit-1
+  name: tanzu-rabbitmq-1-upstream
   namespace: rabbitmq-system
 spec:
+  imagePullSecrets:
+  - name: tanzu-rabbitmq-registry-creds
+  override:
+    statefulSet:
+      spec:
+        template:
+          spec:
+            containers: []
+  persistence:
+    storage: 10Gi
+  rabbitmq:
+    additionalConfig: |-
+      schema_definition_sync.operating_mode = upstream
+      standby.replication.operating_mode = upstream
+      standby.replication.retention.size_limit.messages = 5000000000
+      cluster_partition_handling = pause_minority
+      vm_memory_high_watermark_paging_ratio=0.99
+      disk_free_limit.relative=1.5
+      collect_statistics_interval=10000
+      default_user=admin
+      default_pass=admin
+    additionalPlugins:
+    - rabbitmq_top
+    - rabbitmq_auth_backend_ldap
+    - rabbitmq_auth_backend_oauth2
+    - rabbitmq_consistent_hash_exchange
+    - rabbitmq_stream
+    - rabbitmq_stream_management
   replicas: 3
+  resources:
+    limits:
+      cpu: "2"
+      memory: 1Gi
+    requests:
+      cpu: "2"
+      memory: 1Gi
+  secretBackend:
+    externalSecret: {}
   service:
     type: LoadBalancer
+  terminationGracePeriodSeconds: 30
+  tls: {}
+
+
