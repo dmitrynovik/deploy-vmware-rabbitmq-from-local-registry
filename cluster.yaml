@@ -1,34 +1,27 @@
 apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster
 metadata:
-  name: rabbitmq-1-upstream
+  name: tanzu-rabbitmq-1
   namespace: rabbitmq-system
 spec:
   imagePullSecrets:
   - name: tanzu-rabbitmq-registry-creds
+  override:
+    statefulSet:
+      spec:
+        template:
+          spec:
+            containers: []
   persistence:
     storage: 10Gi
   rabbitmq:
-    ## In this example, we configure:
-    #  Erlang processes limit: 2 million
-    #  Distribution buffer size: 400 Mega
-    envConfig: | 
-      RABBITMQ_MAX_NUMBER_OF_PROCESSES=2000000
-      RABBITMQ_DISTRIBUTION_BUFFER_SIZE=400000
-      ERL_MAX_PORTS=5000000
-    ## Define the configuration overrides here.
-    ## Change the username and password, or remove them, if you want them to be auto-generated (but less human-friendly):
     additionalConfig: |-
-      schema_definition_sync.operating_mode = upstream
-      standby.replication.operating_mode = upstream
-      standby.replication.retention.size_limit.messages = 5000000000
       cluster_partition_handling = pause_minority
       vm_memory_high_watermark_paging_ratio=0.99
       disk_free_limit.relative=1.5
       collect_statistics_interval=10000
       default_user=admin
       default_pass=admin
-    ## Adjust enabled plugins below
     additionalPlugins:
     - rabbitmq_top
     - rabbitmq_auth_backend_ldap

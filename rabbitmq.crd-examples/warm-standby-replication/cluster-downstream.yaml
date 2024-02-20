@@ -1,7 +1,7 @@
 apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster
 metadata:
-  name: tanzu-rabbitmq-1-upstream
+  name: rabbitmq-1-downstream
   namespace: rabbitmq-system
 spec:
   imagePullSecrets:
@@ -16,9 +16,15 @@ spec:
     storage: 10Gi
   rabbitmq:
     additionalConfig: |-
-      schema_definition_sync.operating_mode = upstream
-      standby.replication.operating_mode = upstream
+      schema_definition_sync.operating_mode = downstream
+      # initiate sync operations every 30 seconds
+      schema_definition_sync.downstream.minimum_sync_interval = 30
+      standby.replication.operating_mode = downstream
+      schema_definition_sync.downstream.locals.users = ^default_user_
+      schema_definition_sync.downstream.locals.global_parameters = ^standby
+      # message stream retention limit (can either be size or time based)
       standby.replication.retention.size_limit.messages = 5000000000
+      # standby.replication.retention.time_limit.messages = 12h
       cluster_partition_handling = pause_minority
       vm_memory_high_watermark_paging_ratio=0.99
       disk_free_limit.relative=1.5
