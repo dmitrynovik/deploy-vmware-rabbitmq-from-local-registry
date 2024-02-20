@@ -6,24 +6,16 @@ metadata:
 spec:
   imagePullSecrets:
   - name: tanzu-rabbitmq-registry-creds
-  override:
-    statefulSet:
-      spec:
-        template:
-          spec:
-            containers:
-              - name: rabbitmq
-                env:
-                  ## In this example, we configure:
-                  #  Erlang processes limit: 2 million
-                  #  Distribution buffer size: 400M
-                  - name: RABBITMQ_MAX_NUMBER_OF_PROCESSES
-                    value: '2000000'
-                  - name: RABBITMQ_DISTRIBUTION_BUFFER_SIZE
-                    value: '400000'
   persistence:
     storage: 10Gi
   rabbitmq:
+    ## In this example, we configure:
+    #  Erlang processes limit: 2 million
+    #  Distribution buffer size: 400 Mega
+    envConfig: | 
+      RABBITMQ_MAX_NUMBER_OF_PROCESSES=2000000
+      RABBITMQ_DISTRIBUTION_BUFFER_SIZE=400000
+      ERL_MAX_PORTS=5000000
     ## Define the configuration overrides here.
     ## Change the username and password, or remove them, if you want them to be auto-generated (but less human-friendly):
     additionalConfig: |-
