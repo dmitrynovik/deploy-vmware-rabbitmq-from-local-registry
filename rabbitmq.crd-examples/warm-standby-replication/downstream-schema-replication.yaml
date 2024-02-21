@@ -1,0 +1,11 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: SchemaReplication
+metadata:
+  name: rabbitmq-1-downstream-schema-replication
+  namespace: rabbitmq-system
+spec:
+  endpoints: "172.18.255.200:5672"
+  upstreamSecret:
+    name: rabbitmq-downstream-1-secret
+  rabbitmqClusterReference:
+    name: rabbitmq-1-downstream  # the downstream RabbitMQ cluster name. It must be in the same namespace and it is a mandatory value.

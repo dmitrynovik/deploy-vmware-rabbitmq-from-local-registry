@@ -1,0 +1,14 @@
+apiVersion: rabbitmq.tanzu.vmware.com/v1beta1
+kind: StandbyReplication
+metadata:
+  name: rabbitmq-1-upstream-message-replication
+  namespace: rabbitmq-system
+spec:
+  operatingMode: "upstream" # has to be "upstream" to configure an upstream RabbitMQ cluster; required value
+  upstreamModeConfiguration: # list of policies that Operator will create
+    replicationPolicies:
+      - name: replicate-root-vhost # policy name; required value
+        pattern: "^.*" # any regex expression that will be used to match quorum queues name; required value
+        vhost: "/" # vhost name; must be an existing vhost; required value
+  rabbitmqClusterReference:
+    name: rabbitmq-1-upstream # the upstream RabbitMQ cluster name. It must be in the same namespace and it is a mandatory value.

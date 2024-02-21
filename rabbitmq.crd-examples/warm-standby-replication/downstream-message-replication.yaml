@@ -1,0 +1,14 @@
+---
+apiVersion: rabbitmq.tanzu.vmware.com/v1beta1
+kind: StandbyReplication
+metadata:
+  name: rabbitmq-1-downstream-message-replication
+  namespace: rabbitmq-system
+spec:
+  operatingMode: "downstream" # has to be "downstream" to configure an downstream RabbitMQ cluster
+  downstreamModeConfiguration:
+    endpoints: "172.18.255.200:5552" # comma separated list of endpoints to the upstream RabbitMQ
+    upstreamSecret:
+      name: rabbitmq-downstream-1-secret # an existing Kubernetes secret; required value
+  rabbitmqClusterReference:
+    name: rabbitmq-1-downstream # the downstream RabbitMQ cluster name. It must be in the same namespace and it is a mandatory value.

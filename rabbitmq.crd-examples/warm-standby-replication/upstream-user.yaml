@@ -1,0 +1,10 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: User
+metadata:
+  name: rabbitmq-1-upstream-replicator
+  namespace: rabbitmq-system # Changeme
+spec:
+  rabbitmqClusterReference:
+    name:  rabbitmq-1-upstream  # Changeme: the upstream RabbitMQ cluster name. It must be in the same namespace and it is a mandatory value.
+  importCredentialsSecret:
+    name: rabbitmq-upstream-1-secret

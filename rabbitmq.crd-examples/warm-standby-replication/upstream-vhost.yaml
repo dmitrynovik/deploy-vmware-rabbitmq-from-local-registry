@@ -1,0 +1,10 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: Vhost
+metadata:
+  name: default
+  namespace: rabbitmq-system
+spec:
+  name: "/" # vhost name
+  tags: ["standby_replication"]
+  rabbitmqClusterReference:
+    name: rabbitmq-1-upstream # the upstream RabbitMQ cluster name. It must be in the same namespace and it is a mandatory value.

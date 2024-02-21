@@ -1,0 +1,15 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: Permission
+metadata:
+  name: rabbitmq-1-upstream-replicator.rabbitmq-schema-definition-sync.all
+  namespace: rabbitmq-system
+spec:
+  vhost: "rabbitmq_schema_definition_sync" # name of a vhost
+  userReference:
+    name: rabbitmq-1-upstream-replicator
+  permissions:
+    write: ".*"
+    configure: ".*"
+    read: ".*"
+  rabbitmqClusterReference:
+    name: rabbitmq-1-upstream  # the upstream RabbitMQ cluster name. It must be in the same namespace and it is a mandatory value.
