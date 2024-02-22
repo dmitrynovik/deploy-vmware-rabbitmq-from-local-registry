@@ -13,3 +13,19 @@ spec:
     read: ".*"
   rabbitmqClusterReference:
     name: rabbitmq-1-downstream  # the downstream RabbitMQ cluster name. It must be in the same namespace and it is a mandatory value.
+---
+apiVersion: rabbitmq.com/v1beta1
+kind: Permission
+metadata:
+  name: rabbitmq-1-downstream-replicator.rabbitmq-schema-definition-sync.all.root
+  namespace: rabbitmq-system
+spec:
+  vhost: "/" # name of a vhost
+  userReference:
+    name: rabbitmq-1-downstream-replicator
+  permissions:
+    write: ".*"
+    configure: ".*"
+    read: ".*"
+  rabbitmqClusterReference:
+    name: rabbitmq-1-downstream  # the downstream RabbitMQ cluster name. It must be in the same namespace and it is a mandatory value.
