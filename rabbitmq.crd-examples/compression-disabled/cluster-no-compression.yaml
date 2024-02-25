@@ -11,7 +11,7 @@ spec:
   rabbitmq:
     envConfig: |
       RABBITMQ_MAX_NUMBER_OF_PROCESSES=2000000
-      RABBITMQ_SERVER_START_ARGS="-proto_dist inet_tcp_compress"
+      RABBITMQ_SERVER_START_ARGS="-proto_dist inet_tcp"
     additionalConfig: |-
       cluster_partition_handling = pause_minority
       vm_memory_high_watermark_paging_ratio=0.99
